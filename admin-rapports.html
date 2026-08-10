@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Rapports</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Administration</div>
+            <a href="admin.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="admin-employes.html" class="nav-item"><i class="fas fa-users"></i> Employés</a>
+            <a href="admin-pointages.html" class="nav-item"><i class="fas fa-clock"></i> Pointages</a>
+            <a href="admin-planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Planning</a>
+            <a href="admin-rapports.html" class="nav-item active"><i class="fas fa-chart-bar"></i> Rapports</a>
+            <a href="admin-parametres.html" class="nav-item"><i class="fas fa-cog"></i> Paramètres</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">AD</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Admin</div>
+                    <div class="user-role" id="user-role">Administrateur</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb">
+                        <span>Administration</span><span class="separator">/</span>
+                        <span class="current">Rapports</span>
+                    </div>
+                    <h1>Rapports & Statistiques</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <button class="btn btn-success" id="btn-export">
+                    <i class="fas fa-file-csv"></i> Exporter CSV
+                </button>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <!-- Templates rapides -->
+            <div class="grid-3 mb-3">
+                <div class="template-card" data-template="mois">
+                    <div class="template-icon"><i class="fas fa-calendar"></i></div>
+                    <h4>Rapport Mensuel</h4>
+                    <p>Statistiques du mois en cours</p>
+                </div>
+                <div class="template-card" data-template="semaine">
+                    <div class="template-icon" style="background:var(--success-bg);color:var(--success)"><i class="fas fa-calendar-week"></i></div>
+                    <h4>Rapport Hebdomadaire</h4>
+                    <p>7 derniers jours</p>
+                </div>
+                <div class="template-card" data-template="trimestre">
+                    <div class="template-icon" style="background:var(--warning-bg);color:var(--warning)"><i class="fas fa-calendar-day"></i></div>
+                    <h4>Rapport Trimestriel</h4>
+                    <p>3 derniers mois</p>
+                </div>
+            </div>
+
+            <!-- Filtres période -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3><i class="fas fa-filter"></i> Configurer le rapport</h3>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar" style="border:none;padding:0;">
+                        <div class="form-group" style="margin:0;">
+                            <label>Date début</label>
+                            <input type="date" id="filter-debut" class="form-control">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label>Date fin</label>
+                            <input type="date" id="filter-fin" class="form-control">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label>Employé</label>
+                            <select id="filter-user" class="form-control">
+                                <option value="">Tous les employés</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="btn-generate" style="align-self:flex-end;">
+                            <i class="fas fa-sync"></i> Générer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats du rapport -->
+            <div class="rapport-stats" id="rapport-stats">
+                <div class="rapport-stat">
+                    <div class="stat-value" id="stat-heures">0h</div>
+                    <div class="stat-label">Total heures travaillées</div>
+                </div>
+                <div class="rapport-stat">
+                    <div class="stat-value" id="stat-jours">0</div>
+                    <div class="stat-label">Jours présents</div>
+                </div>
+                <div class="rapport-stat">
+                    <div class="stat-value" id="stat-retards">0</div>
+                    <div class="stat-label">Retards</div>
+                </div>
+                <div class="rapport-stat">
+                    <div class="stat-value" id="stat-moyenne">0h</div>
+                    <div class="stat-label">Moyenne / jour</div>
+                </div>
+            </div>
+
+            <!-- Graphique -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Heures travaillées par jour</h3>
+                </div>
+                <div class="card-body">
+                    <div style="height:300px;"><canvas id="chart-heures"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Tableau détaillé -->
+            <div class="data-card">
+                <div class="table-header">
+                    <h3><i class="fas fa-table"></i> Détail des pointages</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Employé</th>
+                                <th>Arrivée</th>
+                                <th>Départ</th>
+                                <th>Heures</th>
+                                <th>Mode</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rapport-tbody">
+                            <tr><td colspan="6" class="text-center text-muted">Générez un rapport pour voir les données</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/admin-rapports.js"></script>
+</body>
+</html>

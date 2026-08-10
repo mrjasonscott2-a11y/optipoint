@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Gestion des Pointages</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Administration</div>
+            <a href="admin.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="admin-employes.html" class="nav-item"><i class="fas fa-users"></i> Employés</a>
+            <a href="admin-pointages.html" class="nav-item active"><i class="fas fa-clock"></i> Pointages</a>
+            <a href="admin-planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Planning</a>
+            <a href="admin-rapports.html" class="nav-item"><i class="fas fa-chart-bar"></i> Rapports</a>
+            <a href="admin-parametres.html" class="nav-item"><i class="fas fa-cog"></i> Paramètres</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">AD</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Admin</div>
+                    <div class="user-role" id="user-role">Administrateur</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb">
+                        <span>Administration</span><span class="separator">/</span>
+                        <span class="current">Pointages</span>
+                    </div>
+                    <h1>Gestion des Pointages</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <button class="btn btn-primary" id="btn-export">
+                    <i class="fas fa-file-csv"></i> Exporter
+                </button>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <!-- KPI -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon primary"><i class="fas fa-clock"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="stat-total">--</div>
+                        <div class="kpi-label">Total pointages</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon success"><i class="fas fa-user-check"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="stat-arrivees">--</div>
+                        <div class="kpi-label">Arrivées</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon danger"><i class="fas fa-door-open"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="stat-departs">--</div>
+                        <div class="kpi-label">Départs</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="stat-retards">--</div>
+                        <div class="kpi-label">Retards</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div class="table-header">
+                    <h3><i class="fas fa-list"></i> Historique des pointages</h3>
+                </div>
+                <div class="toolbar">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" class="form-control" placeholder="Rechercher employé...">
+                    </div>
+                    <input type="date" id="filter-date-debut" class="filter-select">
+                    <input type="date" id="filter-date-fin" class="filter-select">
+                    <select id="filter-type" class="filter-select">
+                        <option value="">Tous les types</option>
+                        <option value="arrivee">Arrivées</option>
+                        <option value="depart">Départs</option>
+                    </select>
+                    <select id="filter-mode" class="filter-select">
+                        <option value="">Tous les modes</option>
+                        <option value="bureau">Bureau</option>
+                        <option value="teletravail">Télétravail</option>
+                        <option value="client">Client</option>
+                    </select>
+                    <button class="btn btn-sm btn-primary" id="btn-filter">
+                        <i class="fas fa-filter"></i> Filtrer
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Employé</th>
+                                <th>Type</th>
+                                <th>Heure</th>
+                                <th>Mode</th>
+                                <th>Localisation</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pointages-tbody">
+                            <tr><td colspan="8" class="text-center text-muted">Chargement...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/admin-pointages.js"></script>
+</body>
+</html>

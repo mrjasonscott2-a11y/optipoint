@@ -1,0 +1,7 @@
+# Interdire l'accès direct aux fichiers serveur
+<FilesMatch "\.(php|sql|json)$">
+    <IfModule mod_rewrite.c>
+        # Autoriser api.php et generate_hashes.php
+        RewriteEngine Off
+    </IfModule>
+</FilesMatch>

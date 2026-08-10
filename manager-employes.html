@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Mon Équipe</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Manager</div>
+            <a href="dashboard-manager.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="manager-employes.html" class="nav-item active"><i class="fas fa-users"></i> Mon équipe</a>
+            <a href="manager-pointages.html" class="nav-item"><i class="fas fa-clipboard-list"></i> Pointages</a>
+            <a href="manager-conges.html" class="nav-item"><i class="fas fa-umbrella-beach"></i> Congés</a>
+            <a href="manager-planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Planning</a>
+            <a href="manager-rapports.html" class="nav-item"><i class="fas fa-chart-bar"></i> Rapports</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">MG</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Manager</div>
+                    <div class="user-role" id="user-role">IT</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb"><span>Manager</span><span class="separator">/</span><span class="current">Mon équipe</span></div>
+                    <h1>Mon Équipe</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <div class="kpi-grid kpi-grid-3">
+                <div class="kpi-card"><div class="kpi-icon primary"><i class="fas fa-users"></i></div><div class="kpi-info"><div class="kpi-value" id="stat-total">--</div><div class="kpi-label">Total</div></div></div>
+                <div class="kpi-card"><div class="kpi-icon success"><i class="fas fa-user-check"></i></div><div class="kpi-info"><div class="kpi-value" id="stat-actifs">--</div><div class="kpi-label">Actifs</div></div></div>
+                <div class="kpi-card"><div class="kpi-icon warning"><i class="fas fa-user-times"></i></div><div class="kpi-info"><div class="kpi-value" id="stat-inactifs">--</div><div class="kpi-label">Absents</div></div></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="toolbar">
+                        <div class="search-bar"><i class="fas fa-search"></i><input type="text" id="search-input" placeholder="Rechercher..."></div>
+                        <select id="filter-service" class="form-control">
+                            <option value="">Tous les services</option>
+                            <option value="IT">IT</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="RH">RH</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>Employé</th><th>Service</th><th>Email</th><th>Statut</th><th>Rôle</th></tr></thead>
+                            <tbody id="employes-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div id="pagination-container"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="view-modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="view-modal-title">Détails</h3><button class="modal-close"><i class="fas fa-times"></i></button></div>
+            <div class="modal-body" id="view-content"></div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="js/app.js"></script>
+    <script src="js/manager-employes.js"></script>
+</body>
+</html>

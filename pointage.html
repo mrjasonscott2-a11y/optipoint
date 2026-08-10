@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Pointage</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Employé</div>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Accueil</a>
+            <a href="pointage.html" class="nav-item active"><i class="fas fa-clock"></i> Pointer</a>
+            <a href="planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Mon planning</a>
+            <a href="rapport.html" class="nav-item"><i class="fas fa-chart-bar"></i> Mes rapports</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">EM</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Employé</div>
+                    <div class="user-role" id="user-role">Collaborateur</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb"><span>Employé</span><span class="separator">/</span><span class="current">Pointage</span></div>
+                    <h1>Pointage</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <div class="grid-2">
+                <!-- Horloge + boutons -->
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-clock"></i> Heure actuelle</h3></div>
+                    <div class="card-body" style="text-align:center;padding:40px 20px;">
+                        <div id="pointage-clock" style="font-size:3.5rem;font-weight:700;color:var(--primary);">--:--:--</div>
+                        <div id="pointage-date" style="font-size:1.1rem;color:var(--text-secondary);margin-top:8px;">--</div>
+
+                        <div style="margin-top:30px;">
+                            <div style="margin-bottom:16px;">
+                                <label style="font-size:0.85rem;color:var(--text-secondary);display:block;margin-bottom:6px;">Mode de travail</label>
+                                <select id="work-mode" class="form-control" style="width:auto;display:inline-block;">
+                                    <option value="bureau">🏠 Bureau</option>
+                                    <option value="teletravail">💻 Télétravail</option>
+                                    <option value="client">🏢 Client</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-success btn-lg" id="btn-arrivee" style="width:100%;margin-bottom:12px;font-size:1.1rem;padding:14px;">
+                                <i class="fas fa-sign-in-alt"></i> Pointer mon arrivée
+                            </button>
+                            <button class="btn btn-danger btn-lg" id="btn-depart" disabled style="width:100%;font-size:1.1rem;padding:14px;">
+                                <i class="fas fa-sign-out-alt"></i> Pointer mon départ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Localisation + statut -->
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-map-marker-alt"></i> Localisation</h3></div>
+                    <div class="card-body">
+                        <div id="geo-status" class="alert alert-info">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <div>Détection de votre position...</div>
+                        </div>
+                        <div style="margin-top:16px;">
+                            <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:6px;">Coordonnées GPS :</div>
+                            <div id="geo-coords" style="font-family:monospace;font-size:0.9rem;background:var(--bg-secondary);padding:10px;border-radius:var(--radius);">
+                                En attente...
+                            </div>
+                        </div>
+                        <div style="margin-top:16px;">
+                            <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:6px;">Adresse :</div>
+                            <div id="geo-address" style="font-size:0.9rem;color:var(--text-primary);">
+                                <i class="fas fa-map-pin"></i> <span>--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pointages du jour -->
+            <div class="card" style="margin-top:20px;">
+                <div class="card-header"><h3><i class="fas fa-list"></i> Mes pointages aujourd'hui</h3></div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>Type</th><th>Heure</th><th>Mode</th><th>Statut</th><th>Localisation</th></tr></thead>
+                            <tbody id="today-pointages-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="js/app.js"></script>
+    <script src="js/pointage.js"></script>
+</body>
+</html>

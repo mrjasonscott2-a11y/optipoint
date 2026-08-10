@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Congés Équipe</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Manager</div>
+            <a href="dashboard-manager.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="manager-employes.html" class="nav-item"><i class="fas fa-users"></i> Mon équipe</a>
+            <a href="manager-pointages.html" class="nav-item"><i class="fas fa-clipboard-list"></i> Pointages</a>
+            <a href="manager-conges.html" class="nav-item active"><i class="fas fa-umbrella-beach"></i> Congés</a>
+            <a href="manager-planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Planning</a>
+            <a href="manager-rapports.html" class="nav-item"><i class="fas fa-chart-bar"></i> Rapports</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">MG</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Manager</div>
+                    <div class="user-role" id="user-role">IT</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb"><span>Manager</span><span class="separator">/</span><span class="current">Congés</span></div>
+                    <h1>Gestion des Congés</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-icon warning"><i class="fas fa-hourglass-half"></i></div><div class="stat-info"><div class="stat-value" id="stat-attente">--</div><div class="stat-label">En attente</div></div></div>
+                <div class="stat-card"><div class="stat-icon success"><i class="fas fa-check-circle"></i></div><div class="stat-info"><div class="stat-value" id="stat-approuves">--</div><div class="stat-label">Approuvés</div></div></div>
+                <div class="stat-card"><div class="stat-icon danger"><i class="fas fa-times-circle"></i></div><div class="stat-info"><div class="stat-value" id="stat-refuses">--</div><div class="stat-label">Refusés</div></div></div>
+                <div class="stat-card"><div class="stat-icon primary"><i class="fas fa-list"></i></div><div class="stat-info"><div class="stat-value" id="stat-total">--</div><div class="stat-label">Total</div></div></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-list"></i> Demandes de congé</h3>
+                    <div class="toolbar">
+                        <select id="filter-statut" class="form-control">
+                            <option value="">Tous statuts</option>
+                            <option value="en_attente">En attente</option>
+                            <option value="approuve">Approuvés</option>
+                            <option value="refuse">Refusés</option>
+                        </select>
+                        <button class="btn btn-primary" id="btn-filter"><i class="fas fa-search"></i> Filtrer</button>
+                    </div>
+                </div>
+                <div class="card-body" id="conges-list"></div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="js/app.js"></script>
+    <script src="js/manager-conges.js"></script>
+</body>
+</html>

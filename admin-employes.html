@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Gestion des Employés</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Administration</div>
+            <a href="admin.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="admin-employes.html" class="nav-item active"><i class="fas fa-users"></i> Employés</a>
+            <a href="admin-pointages.html" class="nav-item"><i class="fas fa-clock"></i> Pointages</a>
+            <a href="admin-planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Planning</a>
+            <a href="admin-rapports.html" class="nav-item"><i class="fas fa-chart-bar"></i> Rapports</a>
+            <a href="admin-parametres.html" class="nav-item"><i class="fas fa-cog"></i> Paramètres</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">AD</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Admin</div>
+                    <div class="user-role" id="user-role">Administrateur</div>
+                </div>
+            </div>
+        </div> 
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb">
+                        <span>Administration</span><span class="separator">/</span>
+                        <span class="current">Employés</span>
+                    </div>
+                    <h1>Gestion des Employés</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <button class="btn btn-primary" id="btn-add-employe">
+                    <i class="fas fa-user-plus"></i> Nouvel Employé
+                </button>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <!-- Statistiques rapides -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon primary"><i class="fas fa-users"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="stat-total">--</div>
+                        <div class="kpi-label">Total Employés</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon success"><i class="fas fa-user-check"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="stat-actifs">--</div>
+                        <div class="kpi-label">Actifs</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon warning"><i class="fas fa-user-clock"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="stat-inactifs">--</div>
+                        <div class="kpi-label">Inactifs</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon danger"><i class="fas fa-user-times"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="stat-suspendus">--</div>
+                        <div class="kpi-label">Suspendus</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tableau des employés -->
+            <div class="data-card">
+                <div class="table-header">
+                    <h3><i class="fas fa-users"></i> Liste des employés</h3>
+                    <div class="table-header-actions">
+                        <button class="btn btn-sm btn-outline-secondary" id="btn-export">
+                            <i class="fas fa-file-csv"></i> Exporter CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" class="form-control" placeholder="Rechercher (nom, matricule, email)...">
+                        <button class="search-clear"><i class="fas fa-times"></i></button>
+                    </div>
+                    <select id="filter-role" class="filter-select">
+                        <option value="">Tous les rôles</option>
+                        <option value="1">Administrateur</option>
+                        <option value="2">Responsable</option>
+                        <option value="3">Manager</option>
+                        <option value="4">Employé</option>
+                    </select>
+                    <select id="filter-service" class="filter-select">
+                        <option value="">Tous les services</option>
+                        <option value="Informatique">Informatique</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Ressources Humaines">Ressources Humaines</option>
+                        <option value="Administration">Administration</option>
+                    </select>
+                    <select id="filter-statut" class="filter-select">
+                        <option value="">Tous les statuts</option>
+                        <option value="actif">Actif</option>
+                        <option value="inactif">Inactif</option>
+                        <option value="suspendu">Suspendu</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Matricule</th>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Service</th>
+                                <th>Rôle</th>
+                                <th>Horaire</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employes-tbody">
+                            <tr><td colspan="8" class="text-center text-muted">Chargement...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Ajouter/Modifier -->
+    <div class="modal-overlay" id="employe-modal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> <span id="modal-title">Nouvel employé</span></h3>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="employe-form">
+                    <input type="hidden" id="employe-id">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Matricule *</label>
+                            <input type="text" id="form-matricule" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nom complet *</label>
+                            <input type="text" id="form-nom" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="form-email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Téléphone</label>
+                            <input type="tel" id="form-telephone" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Service *</label>
+                            <select id="form-service" class="form-control" required>
+                                <option value="">Sélectionner...</option>
+                                <option value="Informatique">Informatique</option>
+                                <option value="Commercial">Commercial</option>
+                                <option value="Ressources Humaines">Ressources Humaines</option>
+                                <option value="Administration">Administration</option>
+                                <option value="Logistique">Logistique</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Rôle *</label>
+                            <select id="form-role" class="form-control" required>
+                                <option value="4">Employé</option>
+                                <option value="3">Manager</option>
+                                <option value="2">Responsable</option>
+                                <option value="1">Administrateur</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Horaire de travail</label>
+                            <input type="text" id="form-horaire" class="form-control" value="08:00-17:00" placeholder="08:00-17:00">
+                        </div>
+                        <div class="form-group">
+                            <label>Date d'embauche</label>
+                            <input type="date" id="form-date-embauche" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Statut</label>
+                            <select id="form-statut" class="form-control">
+                                <option value="actif">Actif</option>
+                                <option value="inactif">Inactif</option>
+                                <option value="suspendu">Suspendu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label id="password-label">Mot de passe *</label>
+                            <input type="password" id="form-password" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Annuler</button>
+                <button class="btn btn-primary" id="btn-save-employe">
+                    <i class="fas fa-save"></i> Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Voir détail -->
+    <div class="modal-overlay" id="view-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-user"></i> Détails employé</h3>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="view-content"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/admin-employes.js"></script>
+</body>
+</html>
