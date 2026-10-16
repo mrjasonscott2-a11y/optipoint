@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Pointages Employés</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Responsable</div>
+            <a href="dashboard-responsable.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="responsable-employes.html" class="nav-item"><i class="fas fa-users"></i> Mes employés</a>
+            <a href="responsable-pointages.html" class="nav-item active"><i class="fas fa-clipboard-list"></i> Pointages</a>
+            <a href="responsable-conges.html" class="nav-item"><i class="fas fa-umbrella-beach"></i> Congés</a>
+            <a href="responsable-equipes.html" class="nav-item"><i class="fas fa-sitemap"></i> Équipes</a>
+            <a href="responsable-planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Planning</a>
+            <a href="responsable-rapports.html" class="nav-item"><i class="fas fa-chart-pie"></i> Rapports</a>
+            <a href="pointage.html" class="nav-item"><i class="fas fa-fingerprint"></i> Pointer</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">RD</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Responsable</div>
+                    <div class="user-role" id="user-role">Direction</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb">
+                        <span>Responsable</span><span class="separator">/</span>
+                        <span class="current">Pointages</span>
+                    </div>
+                    <h1>Pointages Employés</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon success"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info"><div class="stat-value" id="stat-normaux">--</div><div class="stat-label">Normaux</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon warning"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info"><div class="stat-value" id="stat-retards">--</div><div class="stat-label">Retards</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon primary"><i class="fas fa-home"></i></div>
+                    <div class="stat-info"><div class="stat-value" id="stat-bureau">--</div><div class="stat-label">Bureau</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fas fa-laptop-house"></i></div>
+                    <div class="stat-info"><div class="stat-value" id="stat-teletravail">--</div><div class="stat-label">Télétravail</div></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-filter"></i> Filtres</h3>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar">
+                        <input type="date" id="filter-date" class="form-control">
+                        <select id="filter-type" class="form-control">
+                            <option value="">Tous les types</option>
+                            <option value="arrivee">Arrivées</option>
+                            <option value="depart">Départs</option>
+                        </select>
+                        <select id="filter-mode" class="form-control">
+                            <option value="">Tous les modes</option>
+                            <option value="bureau">Bureau</option>
+                            <option value="teletravail">Télétravail</option>
+                        </select>
+                        <button class="btn btn-primary" id="btn-filter"><i class="fas fa-search"></i> Filtrer</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-list"></i> Liste des pointages</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Employé</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Heure</th>
+                                    <th>Mode</th>
+                                    <th>Statut</th>
+                                    <th>Localisation</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pointages-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div id="pagination-container"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="js/app.js"></script>
+    <script src="js/responsable-pointages.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Tableau de bord Responsable</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Responsable</div>
+            <a href="dashboard-responsable.html" class="nav-item active"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="responsable-employes.html" class="nav-item"><i class="fas fa-users"></i> Mes employés</a>
+            <a href="responsable-pointages.html" class="nav-item"><i class="fas fa-clipboard-list"></i> Pointages</a>
+            <a href="responsable-conges.html" class="nav-item"><i class="fas fa-umbrella-beach"></i> Congés</a>
+            <a href="responsable-equipes.html" class="nav-item"><i class="fas fa-sitemap"></i> Équipes</a>
+            <a href="responsable-planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Planning</a>
+            <a href="responsable-rapports.html" class="nav-item"><i class="fas fa-chart-pie"></i> Rapports</a>
+            <a href="pointage.html" class="nav-item"><i class="fas fa-fingerprint"></i> Pointer</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">RD</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Responsable</div>
+                    <div class="user-role" id="user-role">Direction</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb">
+                        <span>Responsable</span><span class="separator">/</span>
+                        <span class="current">Tableau de bord</span>
+                    </div>
+                    <h1>Tableau de bord</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <div class="header-time"><i class="fas fa-clock"></i> <span id="current-time">--</span></div>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <!-- KPI -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon primary"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="stat-total">--</div>
+                        <div class="stat-label">Collaborateurs</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon success"><i class="fas fa-user-check"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="stat-presents">--</div>
+                        <div class="stat-label">Présents aujourd'hui</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon warning"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="stat-retards">--</div>
+                        <div class="stat-label">Retards</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon danger"><i class="fas fa-umbrella-beach"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="stat-conges">--</div>
+                        <div class="stat-label">Congés en attente</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graphiques -->
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Taux de présence</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="chart-presence"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-pie"></i> Répartition par service</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="chart-services"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activités récentes + Congés en attente -->
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Activités récentes</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline" id="activities-timeline">
+                            <div class="empty-state"><p>Chargement...</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-hourglass-half"></i> Congés en attente</h3>
+                        <a href="responsable-conges.html" class="btn btn-sm btn-outline">Voir tout</a>
+                    </div>
+                    <div class="card-body">
+                        <div id="pending-conges-list"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/responsable.js"></script>
+</body>
+</html>

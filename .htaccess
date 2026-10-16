@@ -1,7 +1,8 @@
-# Interdire l'accès direct aux fichiers serveur
-<FilesMatch "\.(php|sql|json)$">
-    <IfModule mod_rewrite.c>
-        # Autoriser api.php et generate_hashes.php
-        RewriteEngine Off
-    </IfModule>
+# OptiPoint - Protection du backend
+# Bloque l'acces direct aux fichiers sensibles (l'API reste accessible)
+<FilesMatch "^(config.php|db.sql|optipoint_complete.sql)$">
+    Require all denied
 </FilesMatch>
+
+# Page par defaut
+DirectoryIndex index.html

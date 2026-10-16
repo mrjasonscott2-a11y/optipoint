@@ -6,59 +6,49 @@ OptiPoint est une application web professionnelle de pointage d'employés avec g
 
 ## ✨ Fonctionnalités
 
-- **Pointage intelligent** : Arrivée/Départ avec détection géolocalisation GPS
-- **Gestion multi-rôles** : Admin, Responsable, Manager, Employé
+- **Pointage intelligent** : Arrivée/Départ avec géolocalisation GPS et adresse réelle (reverse geocoding)
+- **Gestion multi-rôles** : Admin, Responsable, Manager, Employé — tous peuvent pointer
+- **Gestion des équipes** : Création, affectation de managers et de membres (admin + responsable)
 - **Congés & absences** : Demandes, validation hiérarchique, suivi
-- **Planning** : Attribution des plannings par équipe
-- **Rapports** : Statistiques en temps réel, graphiques, export CSV
+- **Planning** : Attribution des plannings
+- **Rapports** : Statistiques en temps réel, graphiques Chart.js, export CSV
 - **Paramètres** : Configuration complète (horaires, seuils, lieux autorisés)
-- **Journal d'administration** : Traçabilité de toutes les actions
+- **Journal d'administration** : Traçabilité des actions
 
 ## 🏗️ Architecture
 
 ```
 optipoint/
-├── api.php                        # API REST (point d'entrée unique)
-├── login.html                     # Page de connexion
-├── admin.html                     # Dashboard Admin
-├── admin-employes.html           # Gestion employés (CRUD)
-├── admin-pointages.html          # Historique des pointages
-├── admin-planning.html           # Gestion des plannings
-├── admin-rapports.html           # Rapports avancés
-├── admin-parametres.html         # Paramètres système
-├── dashboard-responsable.html    # Dashboard Responsable
-├── responsable-employes.html    # Vue employés
-├── responsable-pointages.html   # Pointages (lecture)
-├── responsable-conges.html       # Validation des congés
-├── responsable-equipes.html      # Visualisation équipes
-├── responsable-planning.html     # Planning (lecture)
-├── responsable-rapports.html     # Rapports
-├── dashboard-manager.html        # Dashboard Manager
-├── manager-employes.html         # Mon équipe
-├── manager-pointages.html        # Pointages équipe
-├── manager-conges.html           # Congés (validation)
-├── manager-planning.html        # Planning équipe
-├── manager-rapports.html         # Rapports équipe
-├── dashboard.html                # Dashboard Employé
-├── pointage.html                 # Page de pointage (géoloc)
-├── planning.html                 # Mon planning
-├── rapport.html                  # Mes rapports
-├── css/
-│   ├── style.css                 # Styles globaux + sidebar
-│   └── admin.css                 # Styles spécifiques (dashboard, cards, etc.)
-├── js/
-│   ├── app.js                     # Fonctions communes (apiCall, showToast, etc.)
-│   ├── auth.js                    # Login/logout/redirect
-│   ├── admin.js / admin-*.js     # Scripts admin
-│   ├── responsable.js / *.js      # Scripts responsable
-│   ├── manager.js / *.js          # Scripts manager
-│   ├── dashboard.js / *.js       # Scripts employé
-│   └── rapport.js / pointage.js / planning.js
-├── server/
-│   ├── config.php                 # Configuration DB + fonctions utilitaires
-│   ├── db.sql                     # Schéma complet + données de démo
-│   └── generate_hashes.php        # Générateur de mots de passe
-└── .htaccess                      # Protection fichiers serveur
+├── index.html                    # Redirection vers frontend/login.html
+├── README.md
+├── frontend/                     # Interface utilisateur
+│   ├── login.html                # Page de connexion
+│   ├── admin.html                # Dashboard Admin
+│   ├── admin-employes.html      # Gestion employés (CRUD)
+│   ├── admin-equipes.html       # Gestion des équipes (CRUD + membres)
+│   ├── admin-pointages.html     # Historique des pointages
+│   ├── admin-planning.html      # Gestion des plannings
+│   ├── admin-rapports.html      # Rapports avancés
+│   ├── admin-parametres.html    # Paramètres système
+│   ├── dashboard-responsable.html + 6 pages responsable
+│   ├── dashboard-manager.html + 5 pages manager
+│   ├── dashboard.html            # Accueil employé
+│   ├── pointage.html             # Pointage géolocalisé (tous rôles)
+│   ├── planning.html / rapport.html
+│   ├── css/                      # style.css, admin.css, auth.css
+│   └── js/                       # app.js, auth.js + scripts par page
+└── backend/                      # API + base de données
+    ├── api.php                   # ✅ API REST ACTIVE (utilisée par le frontend)
+    ├── config.php                # ✅ Connexion PDO + fonctions utilitaires
+    ├── db.sql                    # ✅ Schéma de la base active (optipoint_db)
+    ├── reset_admin.php           # ✅ Réinitialisation mot de passe admin (optionnel)
+    │
+    │   # ── Architecture OOP legacy (conservée pour référence) ──
+    ├── index.php                 # Ancien point d'entrée API OOP
+    ├── autoload.php              # Autoloader des classes
+    ├── optipoint_complete.sql    # Ancien schéma complet (tables legacy)
+    ├── config/ dto/ mappers/ models/ repository/ services/
+    └── README.md                 # Documentation des deux architectures
 ```
 
 ## 🚀 Installation (XAMPP)
@@ -68,85 +58,63 @@ optipoint/
 
 ### Étapes
 
-1. **Copier le projet**
-   ```
-   Copier le dossier "optipoint" dans : C:\xampp\htdocs\
-   ```
+1. **Copier le projet** dans `C:\xampp\htdocs\`
 
-2. **Démarrer XAMPP**
-   - Lancer Apache et MySQL depuis le panneau de contrôle XAMPP
+2. **Démarrer Apache et MySQL** depuis le panneau de contrôle XAMPP
 
 3. **Créer la base de données**
    - Ouvrir http://localhost/phpmyadmin
-   - Cliquer sur "Nouveau" → Nom : `optipoint_db` → Créer
-   - Aller dans l'onglet "Importer"
-   - Sélectionner le fichier `C:\xampp\htdocs\optipoint\server\db.sql`
-   - Cliquer sur "Exécuter"
+   - Créer la base `optipoint_db` (interclassement utf8mb4_unicode_ci)
+   - Onglet **Importer** → sélectionner `backend/db.sql` → **Exécuter**
 
-4. **Générer les mots de passe**
-   - Ouvrir dans le navigateur : http://localhost/optipoint/server/generate_hashes.php
-   - Vous devriez voir les 11 utilisateurs créés
-   - ⚠️ Exécuter cette page **une seule fois**
+4. **Se connecter**
+   - Ouvrir : http://localhost/optipoint/frontend/login.html
+   - Compte par défaut : **admin / admin123**
+   - `backend/reset_admin.php` est optionnel (réinitialisation du mot de passe admin)
 
-5. **Se connecter**
-   - Ouvrir : http://localhost/optipoint/login.html
-   - Utiliser les comptes de démonstration (voir ci-dessous)
+## 👥 Comptes
 
-## 👥 Comptes de démonstration
+Le système démarre avec un **unique compte administrateur** (`admin` / `admin123`).
 
-| Matricule | Mot de passe | Rôle | Dashboard |
-|----------|-------------|------|-----------|
-| `admin` | `admin123` | Administrateur | `admin.html` |
-| `RESP001` | `admin123` | Responsable | `dashboard-responsable.html` |
-| `MGR001` | `admin123` | Manager IT | `dashboard-manager.html` |
-| `MGR002` | `admin123` | Manager Commercial | `dashboard-manager.html` |
-| `MGR003` | `admin123` | Manager RH | `dashboard-manager.html` |
-| `EMP001` | `admin123` | Employé IT | `dashboard.html` |
-| `EMP002` | `admin123` | Employé IT | `dashboard.html` |
-| `EMP003` | `admin123` | Employé Commercial | `dashboard.html` |
-| `EMP004` | `admin123` | Employé Commercial | `dashboard.html` |
-| `EMP005` | `admin123` | Employé RH | `dashboard.html` |
-| `EMP006` | `admin123` | Employé RH (inactif) | `dashboard.html` |
+**Créez tous les autres comptes** (responsables, managers, employés) depuis l'interface :
+**Administration → Employés → Nouvel Employé** — chaque compte est enregistré
+automatiquement en base et peut se connecter immédiatement.
+
+Organisation recommandée :
+1. L'admin crée les **responsables** et les **managers** (avec rattachement)
+2. L'admin ou le responsable crée les **équipes** et y affecte les managers (Équipes → Nouvelle équipe)
+3. Les membres sont ajoutés aux équipes via le bouton **Membres**
 
 ## 🔧 Technologies
 
-- **Backend** : PHP 7.4+ avec PDO / MySQL
+- **Backend** : PHP 7.4+ / PDO / MySQL (MariaDB)
 - **Frontend** : HTML5, CSS3, JavaScript Vanilla (Fetch API)
-- **Graphiques** : Chart.js (CDN)
-- **Icônes** : Font Awesome 6 (CDN)
-- **Polices** : Google Poppins (CDN)
-- **Serveur** : Apache (XAMPP)
+- **Graphiques** : Chart.js — **Icônes** : Font Awesome 6 — **Police** : Poppins
 
 ## 📡 API REST
 
-Toutes les requêtes passent par `api.php?action=xxx`
+Toutes les requêtes passent par `backend/api.php?action=xxx`
 
 | Action | Méthode | Description |
 |--------|---------|-------------|
-| `login` | POST | Authentification |
-| `logout` | POST | Déconnexion |
-| `user` | GET | Utilisateur courant |
-| `users` | GET/POST/PUT/DELETE | CRUD utilisateurs |
-| `pointage` | GET/POST/DELETE | CRUD pointages |
-| `planning` | GET/POST/PUT/DELETE | CRUD plannings |
-| `rapport` | GET | Rapport statistique |
-| `stats` | GET | KPI par rôle |
-| `equipes` | GET/POST/PUT/DELETE | CRUD équipes |
+| `login` / `logout` | POST | Authentification |
+| `user` / `users` / `managers` | GET*/CRUD | Utilisateurs |
+| `pointage` | GET/POST/DELETE | Pointages géolocalisés |
+| `planning` | GET/CRUD | Plannings |
+| `rapport` / `stats` | GET | Rapports et KPI par rôle |
+| `equipes` / `equipe_membres` | GET/CRUD | Équipes et affectations |
 | `conges` | GET/POST/PUT | Congés + validation |
-| `lieux` | GET/POST/DELETE | Lieux autorisés |
-| `parametres` | GET/PUT | Configuration |
-| `logs` | GET | Journaux admin |
-| `export` | GET | Export CSV |
+| `lieux` / `parametres` / `logs` / `export` | GET/CRUD | Configuration & divers |
 
 ## 📋 Rôles et permissions
 
 | Rôle | ID | Permissions |
 |------|----|-------------|
 | Admin | 1 | Accès complet à tous les modules |
-| Responsable | 2 | Vue + validation (employés, congés, pointages) |
+| Responsable | 2 | Voit tous les employés, gère les équipes, valide les congés |
 | Manager | 3 | Gestion de son équipe (pointages, congés, planning) |
 | Employé | 4 | Pointage, consultation de ses propres données |
 
 ## 📄 Licence
 
-© 2025 OptiPoint - Tous droits réservés.
+© 2026 OptiPoint — Tous droits réservés.

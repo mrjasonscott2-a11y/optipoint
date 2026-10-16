@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiPoint - Gestion des Équipes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="logo-text">Opti<span>Point</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Responsable</div>
+            <a href="dashboard-responsable.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="responsable-employes.html" class="nav-item"><i class="fas fa-users"></i> Mes employés</a>
+            <a href="responsable-pointages.html" class="nav-item"><i class="fas fa-clipboard-list"></i> Pointages</a>
+            <a href="responsable-conges.html" class="nav-item"><i class="fas fa-umbrella-beach"></i> Congés</a>
+            <a href="responsable-equipes.html" class="nav-item active"><i class="fas fa-sitemap"></i> Équipes</a>
+            <a href="responsable-planning.html" class="nav-item"><i class="fas fa-calendar-alt"></i> Planning</a>
+            <a href="responsable-rapports.html" class="nav-item"><i class="fas fa-chart-pie"></i> Rapports</a>
+            <a href="pointage.html" class="nav-item"><i class="fas fa-fingerprint"></i> Pointer</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" id="user-avatar">RD</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Responsable</div>
+                    <div class="user-role" id="user-role">Direction</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <div class="breadcrumb"><span>Responsable</span><span class="separator">/</span><span class="current">Équipes</span></div>
+                    <h1>Gestion des Équipes</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date"><i class="fas fa-calendar-day"></i> <span id="header-date">--</span></div>
+                <button class="btn btn-primary" id="btn-add-equipe"><i class="fas fa-plus"></i> Nouvelle équipe</button>
+                <button class="btn-icon-header" id="logout-btn" data-tooltip="Déconnexion"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <div class="kpi-grid kpi-grid-2">
+                <div class="kpi-card"><div class="kpi-icon primary"><i class="fas fa-sitemap"></i></div><div class="kpi-info"><div class="kpi-value" id="stat-equipes">--</div><div class="kpi-label">Équipes</div></div></div>
+                <div class="kpi-card"><div class="kpi-icon success"><i class="fas fa-users"></i></div><div class="kpi-info"><div class="kpi-value" id="stat-membres">--</div><div class="kpi-label">Membres affectés</div></div></div>
+            </div>
+
+            <div class="grid-2" id="equipes-grid">
+                <div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-sitemap"></i><h3>Chargement...</h3></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: Créer/Modifier une équipe -->
+    <div class="modal-overlay" id="equipe-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="equipe-modal-title">Nouvelle équipe</h3>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="form-equipe" class="modal-body">
+                <input type="hidden" id="equipe-id">
+                <div class="form-group">
+                    <label>Nom de l'équipe *</label>
+                    <input type="text" id="equipe-nom" class="form-control" required placeholder="Équipe Développement">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="equipe-description" class="form-control" rows="2" placeholder="Rôle de l'équipe..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Département</label>
+                        <input type="text" id="equipe-departement" class="form-control" placeholder="Informatique">
+                    </div>
+                    <div class="form-group">
+                        <label>Manager affecté</label>
+                        <select id="equipe-manager" class="form-control">
+                            <option value="">— Aucun —</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-close">Annuler</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Gérer les membres -->
+    <div class="modal-overlay" id="membres-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="membres-modal-title">Membres de l'équipe</h3>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row" style="margin-bottom:16px;align-items:flex-end;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Ajouter un employé</label>
+                        <select id="membre-select" class="form-control"></select>
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-membre"><i class="fas fa-user-plus"></i> Ajouter</button>
+                </div>
+                <div id="membres-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="js/app.js"></script>
+    <script src="js/equipes.js"></script>
+</body>
+</html>
